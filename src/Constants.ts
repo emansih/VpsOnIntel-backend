@@ -1,0 +1,3 @@
+export const LIGHTSHIP_USERNAME=process.env.LIGHTSHIP_USERNAME
+
+export const LIGHTSHIP_PASSOWRD=process.env.LIGHTSHIP_PASSWORD
