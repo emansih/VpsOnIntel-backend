@@ -18,6 +18,14 @@ var $; // to prevent script errors on load
 var map; // to prevent script errors on load
 
 function wrapper(plugin_info) {
+    const isLocalDev = localStorage.getItem("highlight_overclocked_portals_is_dev");
+    var url = ""
+    if(isLocalDev){
+        url = "http://127.0.0.1:3000"
+    } else {
+        url = "https://vps-on-intel.vercel.app"
+    }
+
     if(typeof window.plugin !== 'function') window.plugin = function() {};
 
     plugin_info.buildName = 'hisname@highlight-overclocked-portals';
@@ -57,7 +65,7 @@ function wrapper(plugin_info) {
         obj.lng = centerCoords.lng
         var jsonString = JSON.stringify(obj);
         
-        const response = fetch("http://127.0.0.1:3000/api/v1/getPoiInRadius", { "method": "POST",     
+        const response = fetch(`${url}/api/v1/getPoiInRadius`, { "method": "POST",     
         headers: {
             "Content-Type": "application/json", 
         },
