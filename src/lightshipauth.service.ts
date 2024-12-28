@@ -15,10 +15,6 @@ export class LightshipAuthService {
         const headers = {
             "accept-language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7,la;q=0.6",
             "content-type": "application/json",
-            "priority": "u=1, i",
-            "x-client-data": "CJa2yQEIprbJAQipncoBCPOVywEIlaHLAQiJo8sBCIWgzQEI+tfOARj0yc0B",
-            "x-client-version": "Chrome/JsCore/9.23.0/FirebaseCore-web",
-            "x-firebase-gmpid": "1:729497683248:web:79241dda80b7d1842df4f5",
             "referer": "https://lightship.dev/"
         };
 
