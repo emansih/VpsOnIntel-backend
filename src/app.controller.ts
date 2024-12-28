@@ -5,6 +5,7 @@ import { LightshipAuthRepository } from './lightshipauthrepository.service';
 import { IntelRequest } from './model/IntelRequest';
 import { VpsLocalizability } from './model/lightship_response/LightshipResponse';
 import { VpsDetails } from './VpsDetails';
+import { ActivationDetailsRequest } from './model/ActivationDetailsRequest';
 
 @Controller()
 export class AppController {
@@ -41,8 +42,7 @@ export class AppController {
   
   
   @Post("/api/v1/activation")
-  async getActivationDetails(@Body() body: any): Promise<VpsDetails> {
-    console.log(body.poiIds)
+  async getActivationDetails(@Body() body: ActivationDetailsRequest): Promise<VpsDetails> {
     const lightshipAuthToken = await this.lightshipAuthRepo.getAuthToken()
     if(!lightshipAuthToken){
       throw new HttpException('Unable to authenticate with Lightship Service!', HttpStatus.UNAUTHORIZED);
