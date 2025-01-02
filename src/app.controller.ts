@@ -44,14 +44,19 @@ export class AppController {
   
   
   @Post("/api/v1/activation")
-  async getActivationDetails(@Body() body: ActivationDetailsRequest): Promise<VpsDetails> {
+  async getActivationDetails(@Body() body: ActivationDetailsRequest, @Headers("Authorization") header: string): Promise<VpsDetails> {
     const lightshipAuthToken = await this.lightshipAuthRepo.getAuthToken()
     if(!lightshipAuthToken){
       throw new HttpException('Unable to authenticate with Lightship Service!', HttpStatus.UNAUTHORIZED);
     }
-    const activationDetails = await this.lightshipService.getActivationDetails(lightshipAuthToken, body.poiIds)
-    
-    return activationDetails;
+    const authToken = header.replace("Bearer", "")
+    const isValid = await this.trustMasterRepo.validateUserToken(authToken)
+    if(isValid){
+      const activationDetails = await this.lightshipService.getActivationDetails(lightshipAuthToken, body.poiIds)
+      return activationDetails;  
+    } else {
+      throw new HttpException('Unable to authenticate with TrustMaster!', HttpStatus.UNAUTHORIZED);
+    }
   }
 
 
