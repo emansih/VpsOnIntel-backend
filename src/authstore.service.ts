@@ -21,4 +21,12 @@ export class AuthStoreService {
     async removeToken(){
         await this.redis.del('LIGHTSHIP_AUTH_TOKEN')
     }
+
+    async storeTrustMasterAdminToken(token: string, expireTime: number){
+        await this.redis.set('TRUSTMASTER_ADMIN_TOKEN', token, { ex: expireTime });
+    }
+
+    async getTrustMasterAdminToken(): Promise<string> {
+        return this.redis.get('TRUSTMASTER_ADMIN_TOKEN')
+    }
 }

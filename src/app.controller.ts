@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Headers, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { LighshipService } from './lightship.service';
 import { IntelResponse } from './model/IntelResponse';
 import { LightshipAuthRepository } from './lightshipauthrepository.service';
@@ -6,10 +6,12 @@ import { IntelRequest } from './model/IntelRequest';
 import { VpsLocalizability } from './model/lightship_response/LightshipResponse';
 import { VpsDetails } from './VpsDetails';
 import { ActivationDetailsRequest } from './model/ActivationDetailsRequest';
+import { TrustMasterRepo } from './trustmasterrepo.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly lightshipService: LighshipService, private readonly lightshipAuthRepo: LightshipAuthRepository) {}
+  constructor(private readonly lightshipService: LighshipService, 
+    private readonly lightshipAuthRepo: LightshipAuthRepository, private readonly trustMasterRepo: TrustMasterRepo) {}
 
   @Post("/api/v1/getPoiInRadius")
   async getPoiInRadius(@Body() body: IntelRequest): Promise<IntelResponse[]> {
@@ -52,4 +54,11 @@ export class AppController {
     return activationDetails;
   }
 
+
+  @Post("/api/v1/user")
+  async getUserToken(@Body() body: any){
+    const userCode = body.userCode
+    const userToken = await this.trustMasterRepo.getTrustMasterUserToken(userCode)
+    return userToken
+  }
 }
